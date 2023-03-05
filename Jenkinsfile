@@ -1,24 +1,23 @@
 pipeline {
-    agent { label "jdk_11" }
+    agent { label 'jdk_11' }
     stages {
-        stage ( 'vcs' ) {
+        stage('vcs') {
             steps {
                 git url: 'https://github.com/dimplevayigandla1005/game-of-life.git',
                     branch: 'master'
             }
         }
-        stage ( 'package' ) {
+        stage('package') {
             steps {
                 sh 'mvn package'
             }
         }
-        stage('post built') {
+        stage('post build') {
             steps {
                 archiveArtifacts artifacts: '**/target/gameoflife.war',
-                                 onlyIfSucessful: true
+                                 onlyIfSuccessful: true
                 junit testResults: '**/surefire-reports/TEST-*.xml'
             }
         }
     }
-
 }
